@@ -3,197 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ختمتنا - تتبع ختمة القرآن الكريم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>ختمتنا النيون 🌙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Reem+Kufi&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2d5a27;
-            --secondary-color: #f1f8e9;
-            --accent-color: #d4af37;
-            --text-color: #333;
+            --bg-color: #050505;
+            --card-bg: #111;
+            --dobi-color: #00f2fe; /* نيون أزرق للزوج */
+            --dobi-glow: 0 0 15px #00f2fe, 0 0 30px #00f2fe;
+            --dobidobi-color: #ff00de; /* نيون وردي للزوجة */
+            --dobidobi-glow: 0 0 15px #ff00de, 0 0 30px #ff00de;
+            --text-color: #fff;
+            --border-color: #333;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #fafafa;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--primary-color);
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         h1 {
+            font-family: 'Reem Kufi', serif;
+            font-size: 3rem;
             text-align: center;
-            color: var(--primary-color);
-            font-family: 'Amiri', serif;
-            font-size: 2.5rem;
             margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
         }
 
-        .trackers {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .trackers { grid-template-columns: 1fr; }
+        .trackers-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
         }
 
         .card {
-            background: var(--secondary-color);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid #e0e0e0;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            width: 350px;
+            flex-grow: 1;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* تأثيرات النيون الخاصة بكل بطاقة */
+        #dobi-card {
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+        }
+        #dobi-card:hover {
+            border-color: var(--dobi-color);
+            box-shadow: var(--dobi-glow);
+        }
+        #dobi-card h2 {
+            color: var(--dobi-color);
+            text-shadow: var(--dobi-glow);
+        }
+
+        #dobidobi-card {
+            box-shadow: 0 0 15px rgba(255, 0, 222, 0.1);
+        }
+        #dobidobi-card:hover {
+            border-color: var(--dobidobi-color);
+            box-shadow: var(--dobidobi-glow);
+        }
+        #dobidobi-card h2 {
+            color: var(--dobidobi-color);
+            text-shadow: var(--dobidobi-glow);
         }
 
         .card h2 {
+            font-family: 'Reem Kufi', serif;
+            font-size: 2.2rem;
             margin-top: 0;
-            color: var(--primary-color);
+            margin-bottom: 20px;
         }
 
-        .progress-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary-color) 0%, #ddd 0%);
+        /* شريط التقدم الخطي النيون */
+        .progress-container {
+            width: 100%;
+            background-color: #222;
+            border-radius: 10px;
+            height: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        #dobi-progress {
+            background-color: var(--dobi-color);
+            box-shadow: var(--dobi-glow);
+        }
+
+        #dobidobi-progress {
+            background-color: var(--dobidobi-color);
+            box-shadow: var(--dobidobi-glow);
+        }
+
+        .stats {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            position: relative;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
         }
 
-        .progress-circle::after {
-            content: "";
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: var(--secondary-color);
-            border-radius: 50%;
-        }
-
-        .progress-text {
-            position: relative;
-            z-index: 1;
-            font-weight: bold;
-            font-size: 1.2rem;
+        /* إدخال الرقم */
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         input[type="number"] {
-            width: 80%;
-            padding: 10px;
-            margin-top: 15px;
-            border: 2px solid var(--primary-color);
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            text-align: center;
+            color: #fff;
             font-size: 1rem;
+            text-align: center;
+            box-sizing: border-box;
         }
 
-        .info {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #555;
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #fff;
+        }
+
+        /* أزرار الخيارات السلسة والمرنة */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #252525;
+            color: #fff;
+        }
+
+        /* تخصيص هوفر الأزرار لكل شخص */
+        #dobi-card .btn:hover { border-color: var(--dobi-color); color: var(--dobi-color); }
+        #dobidobi-card .btn:hover { border-color: var(--dobidobi-color); color: var(--dobidobi-color); }
+
+        .btn.reset {
+            grid-column: span 3;
+            background: #331111;
+            border-color: #552222;
+            color: #ff9999;
+        }
+        .btn.reset:hover {
+            background: #552222;
+            color: #ffcccc;
         }
 
         .footer {
+            margin-top: 50px;
             text-align: center;
-            margin-top: 40px;
+            color: #555;
             font-size: 0.8rem;
-            color: #999;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .card { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>ختمتنا 🌙</h1>
-    <p class="subtitle">"وَفِي ذَلِكَ فَلْيَتَنَافَسِ الْمُتَنَافِسُونَ"</p>
+    <h1>ختمتنا النيون 🌙</h1>
+    <p class="subtitle">تتبع سلس ومرن لختمة القرآن الكريم</p>
 
-    <div class="trackers">
-        <div class="card" id="user1-card">
-            <h2>الزوج</h2>
-            <div class="progress-circle" id="circle1">
-                <span class="progress-text" id="percent1">0%</span>
+    <div class="trackers-container">
+        <div class="card" id="dobi-card">
+            <h2>دوبي</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="dobi-progress"></div>
             </div>
-            <p class="info">عدد الصفحات المنجزة (من 604):</p>
-            <input type="number" id="input1" min="0" max="604" placeholder="أدخل رقم الصفحة..." oninput="updateProgress(1)">
+            <div class="stats">
+                <span id="dobi-percent">0%</span>
+                <span id="dobi-page-count">0 / 604 صفحة</span>
+            </div>
+
+            <div class="input-group">
+                <input type="number" id="dobi-input" min="0" max="604" placeholder="اكتب رقم الصفحة الحالية..." oninput="updateByInput('dobi')">
+            </div>
+
+            <div class="quick-actions">
+                <button class="btn" onclick="addPages('dobi', 1)">+1 صفحة</button>
+                <button class="btn" onclick="addPages('dobi', 10)">+10 صفحات</button>
+                <button class="btn" onclick="addPages('dobi', 20)">+ جزء (20 ص)</button>
+                <button class="btn" onclick="addPages('dobi', 5)">+5 صفحات</button>
+                <button class="btn" onclick="addPages('dobi', 2)">+2 صفحة</button>
+                <button class="btn" onclick="addPages('dobi', 1)">+1 صفحة</button>
+                <button class="btn reset" onclick="resetProgress('dobi')">إعادة تعيين الختمة 🔄</button>
+            </div>
         </div>
 
-        <div class="card" id="user2-card">
-            <h2>الزوجة</h2>
-            <div class="progress-circle" id="circle2">
-                <span class="progress-text" id="percent2">0%</span>
+        <div class="card" id="dobidobi-card">
+            <h2>دوبي دوبي</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="dobidobi-progress"></div>
             </div>
-            <p class="info">عدد الصفحات المنجزة (من 604):</p>
-            <input type="number" id="input2" min="0" max="604" placeholder="أدخل رقم الصفحة..." oninput="updateProgress(2)">
+            <div class="stats">
+                <span id="dobidobi-percent">0%</span>
+                <span id="dobidobi-page-count">0 / 604 صفحة</span>
+            </div>
+
+            <div class="input-group">
+                <input type="number" id="dobidobi-input" min="0" max="604" placeholder="اكتب رقم الصفحة الحالية..." oninput="updateByInput('dobidobi')">
+            </div>
+
+            <div class="quick-actions">
+                <button class="btn" onclick="addPages('dobidobi', 1)">+1 صفحة</button>
+                <button class="btn" onclick="addPages('dobidobi', 10)">+10 صفحات</button>
+                <button class="btn" onclick="addPages('dobidobi', 20)">+ جزء (20 ص)</button>
+                <button class="btn" onclick="addPages('dobidobi', 5)">+5 صفحات</button>
+                <button class="btn" onclick="addPages('dobidobi', 2)">+2 صفحة</button>
+                <button class="btn" onclick="addPages('dobidobi', 1)">+1 صفحة</button>
+                <button class="btn reset" onclick="resetProgress('dobidobi')">إعادة تعيين الختمة 🔄</button>
+            </div>
         </div>
     </div>
 
     <div class="footer">
-        اللهم اجعل القرآن ربيع قلوبنا ونور صدورنا
+        جعلها الله في ميزان حسناتكما | يتم حفظ البيانات تلقائيًا في متصفحك
     </div>
-</div>
 
-<script>
-    const totalPages = 604;
+    <script>
+        const totalPages = 604;
 
-    // تحميل البيانات المحفوظة عند فتح الصفحة
-    window.onload = function() {
-        for(let i=1; i<=2; i++) {
-            const savedValue = localStorage.getItem('quran_progress_' + i);
-            if(savedValue) {
-                document.getElementById('input' + i).value = savedValue;
-                updateProgress(i);
+        // تحميل البيانات عند الفتح
+        window.onload = function() {
+            loadUserData('dobi');
+            loadUserData('dobidobi');
+        }
+
+        function loadUserData(user) {
+            const savedPage = localStorage.getItem('quran_neon_' + user);
+            if (savedPage) {
+                document.getElementById(user + '-input').value = savedPage;
+                renderUI(user, parseInt(savedPage));
             }
         }
-    }
 
-    function updateProgress(userNum) {
-        const input = document.getElementById('input' + userNum);
-        let val = parseInt(input.value) || 0;
-
-        // التأكد من أن القيمة لا تتخطى عدد صفحات المصحف
-        if(val > totalPages) {
-            val = totalPages;
-            input.value = totalPages;
-        }
-        if(val < 0) {
-            val = 0;
-            input.value = 0;
+        // التحديث عن طريق الكتابة المباشرة
+        function updateByInput(user) {
+            let input = document.getElementById(user + '-input');
+            let val = parseInt(input.value) || 0;
+            val = validateVal(val);
+            input.value = val; // تحديث الحقل إذا تعدى 604
+            saveAndRender(user, val);
         }
 
-        // حفظ القيمة في المتصفح
-        localStorage.setItem('quran_progress_' + userNum, val);
+        // التحديث عن طريق أزرار الإضافة السريعة (+1, +10...)
+        function addPages(user, pagesToAdd) {
+            let input = document.getElementById(user + '-input');
+            let currentVal = parseInt(input.value) || 0;
+            let newVal = validateVal(currentVal + pagesToAdd);
+            
+            input.value = newVal; // تحديث حقل الإدخال
+            saveAndRender(user, newVal);
+        }
 
-        // تحديث النسبة المئوية والشكل المرئي
-        const percentage = (val / totalPages) * 100;
-        document.getElementById('percent' + userNum).innerText = Math.floor(percentage) + "%";
-        
-        const circle = document.getElementById('circle' + userNum);
-        circle.style.background = `conic-gradient(#2d5a27 ${percentage}%, #ddd ${percentage}%)`;
-    }
-</script>
+        // إعادة تعيين
+        function resetProgress(user) {
+            if(confirm(`هل أنت متأكد من إعادة تعيين ختمة ${user === 'dobi' ? 'دوبي' : 'دوبي دوبي'}؟`)) {
+                document.getElementById(user + '-input').value = 0;
+                saveAndRender(user, 0);
+            }
+        }
 
+        // التأكد من أن القيمة بين 0 و 604
+        function validateVal(val) {
+            if (val > totalPages) return totalPages;
+            if (val < 0) return 0;
+            return val;
+        }
+
+        // حفظ وتحديث الواجهة
+        function saveAndRender(user, val) {
+            localStorage.setItem('quran_neon_' + user, val);
+            renderUI(user, val);
+        }
+
+        // تحديث العناصر المرئية (الشريط، النسب، الأرقام)
+        function renderUI(user, val) {
+            const percentage = (val / totalPages) * 100;
+            
+            // تحديث شريط التقدم
+            document.getElementById(user + '-progress').style.width = percentage + '%';
+            
+            // تحديث النسبة المئوية
+            document.getElementById(user + '-percent').innerText = Math.floor(percentage) + '%';
+            
+            // تحديث عدد الصفحات
+            document.getElementById(user + '-page-count').innerText = `${val} / ${totalPages} صفحة`;
+        }
+    </script>
 </body>
 </html>
