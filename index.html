@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ختمتنا - تتبع ختمة القرآن الكريم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2d5a27;
+            --secondary-color: #f1f8e9;
+            --accent-color: #d4af37;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #fafafa;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--primary-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .trackers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .trackers { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-color) 0%, #ddd 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .progress-circle::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+        }
+
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            margin-top: 15px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ختمتنا 🌙</h1>
+    <p class="subtitle">"وَفِي ذَلِكَ فَلْيَتَنَافَسِ الْمُتَنَافِسُونَ"</p>
+
+    <div class="trackers">
+        <div class="card" id="user1-card">
+            <h2>الزوج</h2>
+            <div class="progress-circle" id="circle1">
+                <span class="progress-text" id="percent1">0%</span>
+            </div>
+            <p class="info">عدد الصفحات المنجزة (من 604):</p>
+            <input type="number" id="input1" min="0" max="604" placeholder="أدخل رقم الصفحة..." oninput="updateProgress(1)">
+        </div>
+
+        <div class="card" id="user2-card">
+            <h2>الزوجة</h2>
+            <div class="progress-circle" id="circle2">
+                <span class="progress-text" id="percent2">0%</span>
+            </div>
+            <p class="info">عدد الصفحات المنجزة (من 604):</p>
+            <input type="number" id="input2" min="0" max="604" placeholder="أدخل رقم الصفحة..." oninput="updateProgress(2)">
+        </div>
+    </div>
+
+    <div class="footer">
+        اللهم اجعل القرآن ربيع قلوبنا ونور صدورنا
+    </div>
+</div>
+
+<script>
+    const totalPages = 604;
+
+    // تحميل البيانات المحفوظة عند فتح الصفحة
+    window.onload = function() {
+        for(let i=1; i<=2; i++) {
+            const savedValue = localStorage.getItem('quran_progress_' + i);
+            if(savedValue) {
+                document.getElementById('input' + i).value = savedValue;
+                updateProgress(i);
+            }
+        }
+    }
+
+    function updateProgress(userNum) {
+        const input = document.getElementById('input' + userNum);
+        let val = parseInt(input.value) || 0;
+
+        // التأكد من أن القيمة لا تتخطى عدد صفحات المصحف
+        if(val > totalPages) {
+            val = totalPages;
+            input.value = totalPages;
+        }
+        if(val < 0) {
+            val = 0;
+            input.value = 0;
+        }
+
+        // حفظ القيمة في المتصفح
+        localStorage.setItem('quran_progress_' + userNum, val);
+
+        // تحديث النسبة المئوية والشكل المرئي
+        const percentage = (val / totalPages) * 100;
+        document.getElementById('percent' + userNum).innerText = Math.floor(percentage) + "%";
+        
+        const circle = document.getElementById('circle' + userNum);
+        circle.style.background = `conic-gradient(#2d5a27 ${percentage}%, #ddd ${percentage}%)`;
+    }
+</script>
+
+</body>
+</html>
