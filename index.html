@@ -1,252 +1,159 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ختمتنا الخاصة 🌙☀️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>Radio Quran | إذاعة القرآن الكريم</title>
     <style>
         :root {
-            --bg: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --text: #1a1a1a;
-            --primary: #4a90e2;
-            --secondary: #e91e63;
-            --shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            --bg-color: #0a0b10;
+            --card-bg: rgba(20, 22, 30, 0.8);
+            --neon-color: #00f2ff;
+            --text-color: #ffffff;
+            --shadow: 0 0 15px #00f2ff, 0 0 30px rgba(0, 242, 255, 0.2);
         }
 
-        [data-theme="dark"] {
-            --bg: #121212;
-            --card-bg: rgba(30, 30, 30, 0.9);
-            --text: #ffffff;
-            --primary: #82b1ff;
-            --secondary: #ff80ab;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        [data-theme="light"] {
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --neon-color: #007bff;
+            --text-color: #1a1a1a;
+            --shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            transition: all 0.4s ease;
             margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* زر التبديل (شمس/قمر) */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: var(--shadow);
-            line-height: 1;
-        }
-
-        /* شاشة كود السر */
-        #auth-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: 0.3s;
         }
-
-        .auth-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        /* المحتوى الرئيسي */
-        #main-content { display: none; width: 100%; max-width: 900px; text-align: center; }
 
         .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--neon-color);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 90%;
         }
 
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
+        h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: var(--shadow); }
+
+        .controls { margin: 20px 0; }
+        
+        button {
+            background: transparent;
+            border: 1px solid var(--neon-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: var(--neon-color);
+            color: #000;
             box-shadow: var(--shadow);
         }
 
-        .progress-bar {
+        audio {
             width: 100%;
-            height: 12px;
-            background: #ddd;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            transition: width 0.5s ease;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            margin-top: 10px;
-            background: var(--bg);
-            color: var(--text);
-            text-align: center;
-        }
-
-        .btn-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
             margin-top: 20px;
+            filter: drop-shadow(var(--shadow));
         }
 
-        .btn {
-            padding: 8px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: rgba(128, 128, 128, 0.1);
-            color: var(--text);
+        .footer {
+            margin-top: 30px;
             font-size: 0.8rem;
+            opacity: 0.7;
         }
 
-        .btn:hover { background: var(--primary); color: white; }
+        .dev-name { color: var(--neon-color); font-weight: bold; }
 
-        h2 { margin-bottom: 5px; }
-        .user-name { font-size: 1.8rem; font-weight: bold; }
-        .dobi { color: var(--primary); }
-        .dobidobi { color: var(--secondary); }
+        /* لغات */
+        [lang="en"] { direction: ltr; }
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-    <div class="theme-toggle" onclick="toggleTheme()" id="theme-icon">🌙</div>
-
-    <div id="auth-screen">
-        <div class="auth-card">
-            <h2>أهلاً بكما ❤️</h2>
-            <p>أدخل كود السر السري لرؤية الختمة</p>
-            <input type="password" id="secret-code" placeholder="****" oninput="checkCode()">
-        </div>
+<div class="container" id="main-card">
+    <div class="top-nav">
+        <button onclick="toggleLanguage()" id="langBtn">English</button>
+        <button onclick="toggleTheme()" id="themeBtn">☀️/🌙</button>
     </div>
 
-    <div id="main-content">
-        <h1 style="font-size: 2.5rem;">📖 ختمتنا المباركة</h1>
+    <h1 id="title">إذاعة القرآن الكريم</h1>
+    <p id="subtitle">بث مباشر من القاهرة</p>
+
+    <audio id="radioPlayer" controls>
+        <source src="https://n02.radiojar.com/8s5u8tp7sq5tv" type="audio/mpeg">
+    </audio>
+
+    <div class="controls">
+        <button onclick="refreshRadio()" id="refreshBtn">تحديث البث 🔄</button>
+    </div>
+
+    <div class="footer">
+        <p id="devText">تم التطوير بواسطة <span class="dev-name">Osama</span></p>
+    </div>
+</div>
+
+<script>
+    const player = document.getElementById('radioPlayer');
+    const htmlTag = document.documentElement;
+    
+    // 1. نظام الثيم التلقائي واليدوي
+    function setTheme(theme) {
+        htmlTag.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }
+
+    // التحقق من إعدادات النظام
+    const osTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    setTheme(localStorage.getItem('theme') || osTheme);
+
+    function toggleTheme() {
+        const current = htmlTag.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+
+    // 2. تبديل اللغة
+    let currentLang = 'ar';
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        htmlTag.setAttribute('lang', currentLang);
+        htmlTag.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
         
-        <div class="container">
-            <div class="card">
-                <div class="user-name dobi">دوبي</div>
-                <div class="progress-bar">
-                    <div id="dobi-fill" class="progress-fill" style="background: var(--primary);"></div>
-                </div>
-                <div id="dobi-status">0 / 604 صفحة</div>
-                <input type="number" id="dobi-input" placeholder="رقم الصفحة..." oninput="update('dobi')">
-                <div class="btn-group">
-                    <button class="btn" onclick="add('dobi', 1)">+1</button>
-                    <button class="btn" onclick="add('dobi', 10)">+10</button>
-                    <button class="btn" onclick="add('dobi', 20)">+جزء</button>
-                </div>
-            </div>
+        const content = {
+            ar: { title: "إذاعة القرآن الكريم", subtitle: "بث مباشر من القاهرة", refresh: "تحديث البث 🔄", dev: "تم التطوير بواسطة ", lang: "English" },
+            en: { title: "Quran Radio", subtitle: "Live from Cairo", refresh: "Refresh Stream 🔄", dev: "Developed by ", lang: "العربية" }
+        };
 
-            <div class="card">
-                <div class="user-name dobidobi">دوبي دوبي</div>
-                <div class="progress-bar">
-                    <div id="dobidobi-fill" class="progress-fill" style="background: var(--secondary);"></div>
-                </div>
-                <div id="dobidobi-status">0 / 604 صفحة</div>
-                <input type="number" id="dobidobi-input" placeholder="رقم الصفحة..." oninput="update('dobidobi')">
-                <div class="btn-group">
-                    <button class="btn" onclick="add('dobidobi', 1)">+1</button>
-                    <button class="btn" onclick="add('dobidobi', 10)">+10</button>
-                    <button class="btn" onclick="add('dobidobi', 20)">+جزء</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        document.getElementById('title').innerText = content[currentLang].title;
+        document.getElementById('subtitle').innerText = content[currentLang].subtitle;
+        document.getElementById('refreshBtn').innerText = content[currentLang].refresh;
+        document.getElementById('devText').innerHTML = content[currentLang].dev + '<span class="dev-name">Osama</span>';
+        document.getElementById('langBtn').innerText = content[currentLang].lang;
+    }
 
-    <script>
-        const SECRET = "2024"; // يمكنك تغيير كود السر من هنا
-        const total = 604;
+    // 3. تحديث البث
+    function refreshRadio() {
+        player.src = "https://n02.radiojar.com/8s5u8tp7sq5tv?random=" + Math.random();
+        player.play();
+    }
+</script>
 
-        // اكتشاف ثيم النظام تلقائياً
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme('dark');
-        }
-
-        function checkCode() {
-            const code = document.getElementById('secret-code').value;
-            if(code === SECRET) {
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                loadData();
-            }
-        }
-
-        function toggleTheme() {
-            const current = document.body.getAttribute('data-theme');
-            setTheme(current === 'dark' ? 'light' : 'dark');
-        }
-
-        function setTheme(theme) {
-            document.body.setAttribute('data-theme', theme);
-            document.getElementById('theme-icon').innerText = theme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function update(user) {
-            let val = parseInt(document.getElementById(user + '-input').value) || 0;
-            if(val > total) val = total;
-            save(user, val);
-            render(user, val);
-        }
-
-        function add(user, num) {
-            let current = parseInt(document.getElementById(user + '-input').value) || 0;
-            let newVal = Math.min(current + num, total);
-            document.getElementById(user + '-input').value = newVal;
-            update(user);
-        }
-
-        function save(user, val) {
-            localStorage.setItem('quran_v3_' + user, val);
-        }
-
-        function loadData() {
-            ['dobi', 'dobidobi'].forEach(user => {
-                const val = localStorage.getItem('quran_v3_' + user) || 0;
-                document.getElementById(user + '-input').value = val;
-                render(user, val);
-            });
-        }
-
-        function render(user, val) {
-            const percent = (val / total) * 100;
-            document.getElementById(user + '-fill').style.width = percent + '%';
-            document.getElementById(user + '-status').innerText = `${val} / ${total} صفحة (${Math.floor(percent)}%)`;
-        }
-    </script>
 </body>
 </html>
