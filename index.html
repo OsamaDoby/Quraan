@@ -10,19 +10,19 @@
 
     <style>
         :root {
-            --bg-color: #050505;
-            --card-bg: rgba(15, 15, 15, 0.8);
+            --bg-color: #030407;
+            --card-bg: rgba(10, 12, 18, 0.9);
             --neon-color: #00f2ff;
             --text-color: #ffffff;
-            --glow-box: 0 0 20px rgba(0, 242, 255, 0.3);
+            --glow: 0 0 20px rgba(0, 242, 255, 0.4);
         }
 
         [data-theme="light"] {
-            --bg-color: #eef2f3;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --neon-color: #7000ff;
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --neon-color: #007bff;
             --text-color: #1a1a1a;
-            --glow-box: 0 5px 15px rgba(112, 0, 255, 0.2);
+            --glow: 0 5px 15px rgba(0, 123, 255, 0.2);
         }
 
         body {
@@ -34,126 +34,110 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* لمنع السكرول بسبب المؤثرات */
-            transition: 0.5s;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
-        /* مؤثرات بصرية خلفية */
-        .bg-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--neon-color);
-            filter: blur(150px);
-            opacity: 0.15;
-            z-index: -1;
-            animation: move 10s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-50%, -50%); }
-            to { transform: translate(50%, 50%); }
-        }
-
+        /* تحسين الاستجابة (Responsive) */
         .container {
-            width: 90%;
-            max-width: 420px;
+            width: 100%;
+            max-width: 450px;
             background: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: 40px;
+            padding: 30px;
+            border-radius: 30px;
             border: 2px solid var(--neon-color);
-            box-shadow: var(--glow-box), inset 0 0 10px rgba(0, 242, 255, 0.1);
+            box-shadow: var(--glow);
             text-align: center;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
             position: relative;
+            margin: auto; /* لضمان التوسط في كل الشاشات */
         }
 
-        /* أزرار منفصلة ومنظمة */
         .top-controls {
-            position: absolute;
-            top: -60px;
-            left: 0;
-            right: 0;
             display: flex;
             justify-content: space-between;
+            margin-bottom: 20px;
         }
 
         .action-btn {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--neon-color);
             color: var(--neon-color);
-            width: 45px;
-            height: 45px;
-            border-radius: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             cursor: pointer;
-            box-shadow: var(--glow-box);
             transition: 0.3s;
         }
 
-        .action-btn:hover { transform: scale(1.1); background: var(--neon-color); color: #000; }
+        h1 { font-size: clamp(1.2rem, 5vw, 1.8rem); margin: 10px 0; text-shadow: var(--glow); }
 
-        h1 { font-size: 1.8rem; text-shadow: 0 0 10px var(--neon-color); margin-bottom: 5px; }
-
-        .quote-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 20px;
-            border-radius: 20px;
-            margin: 25px 0;
-            font-size: 0.95rem;
-            border-left: 4px solid var(--neon-color);
+        .spiritual-card {
+            background: rgba(0, 242, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            border-right: 4px solid var(--neon-color);
         }
 
-        /* تصميم المشغل */
-        .player-area { margin: 30px 0; }
-        
-        audio { width: 100%; border-radius: 50px; height: 45px; filter: drop-shadow(var(--glow-box)); }
-
-        .refresh-link {
-            display: block;
-            margin-top: 15px;
+        .hadith-section {
+            font-style: italic;
             color: var(--neon-color);
-            text-decoration: none;
+            margin-top: 15px;
             font-size: 0.85rem;
-            cursor: pointer;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
         }
+
+        audio { width: 100%; margin: 20px 0; filter: drop-shadow(0 0 5px var(--neon-color)); }
 
         .social-icons {
-            margin-top: 35px;
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: clamp(15px, 5vw, 30px);
+            margin: 25px 0;
         }
 
         .social-icons a {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--text-color);
-            transition: 0.4s;
+            transition: 0.3s ease;
         }
 
-        .social-icons a:hover {
-            color: var(--neon-color);
-            text-shadow: 0 0 15px var(--neon-color);
-            transform: translateY(-50%);
-        }
+        .social-icons a:hover { color: var(--neon-color); transform: translateY(-5px); }
 
-        .share-main-btn {
-            margin-top: 30px;
+        .share-btn {
             background: var(--neon-color);
             color: #000;
-            padding: 12px 30px;
+            padding: 12px;
             border-radius: 50px;
             border: none;
             font-weight: bold;
-            font-family: 'Cairo';
             width: 100%;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            font-family: 'Cairo';
+        }
+
+        /* خلفية نيون متحركة خفيفة */
+        .neon-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 80vw;
+            height: 80vw;
+            background: var(--neon-color);
+            filter: blur(150px);
+            opacity: 0.05;
+            z-index: -1;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+    <div class="neon-bg"></div>
 
     <div class="container">
         <div class="top-controls">
@@ -162,18 +146,20 @@
         </div>
 
         <h1 id="title">إذاعة القرآن الكريم</h1>
-        <p id="subtitle" style="opacity: 0.7;">بث مباشر من القاهرة</p>
+        <p id="subtitle" style="opacity: 0.8;">بث مباشر من القاهرة</p>
 
-        <div class="quote-card" id="quote">
-            نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين. جبال من الحسنات في انتظاركم عند المشاركة.
+        <div class="spiritual-card" id="quote">
+            نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين.
         </div>
 
-        <div class="player-area">
-            <audio id="mainPlayer" controls>
-                <source src="https://n0a.radiojar.com/8s5u8tp7sq5tv?rj-tok=AAABf" type="audio/mpeg">
-                متصفحك لا يدعم التشغيل.
-            </audio>
-            <span class="refresh-link" onclick="reloadRadio()"><i class="fas fa-sync-alt"></i> تحديث الاتصال بالبث</span>
+        <audio id="mainPlayer" controls>
+            <source src="https://n02.radiojar.com/8s5u8tp7sq5tv?rj-tok=AAABf" type="audio/mpeg">
+        </audio>
+
+        <p style="font-size: 0.7rem; cursor: pointer;" onclick="refreshStream()"><i class="fas fa-sync"></i> تحديث البث إذا توقف</p>
+
+        <div class="hadith-section" id="hadith">
+            قال رسول الله ﷺ: "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ"
         </div>
 
         <div class="social-icons">
@@ -182,18 +168,15 @@
             <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
 
-        <button class="share-main-btn" onclick="share()"><i class="fas fa-share-alt"></i> <span id="shareTxt">انشر الخير</span></button>
+        <button class="share-btn" onclick="share()"><i class="fas fa-share-alt"></i> <span id="shareTxt">نشر الثواب (مشاركة)</span></button>
     </div>
 
     <script>
         const player = document.getElementById('mainPlayer');
 
-        function reloadRadio() {
-            // إضافة معامل عشوائي لكسر الكاش
-            const streamUrl = "https://n0a.radiojar.com/8s5u8tp7sq5tv?v=" + Math.random();
-            player.src = streamUrl;
-            player.load();
-            player.play().catch(() => alert("يرجى الضغط على زر Play للتشغيل"));
+        function refreshStream() {
+            player.src = "https://n02.radiojar.com/8s5u8tp7sq5tv?v=" + Math.random();
+            player.play();
         }
 
         function toggleTheme() {
@@ -211,18 +194,21 @@
             
             document.getElementById('title').innerText = isAr ? "إذاعة القرآن الكريم" : "Quran Radio";
             document.getElementById('subtitle').innerText = isAr ? "بث مباشر من القاهرة" : "Live from Cairo";
+            document.getElementById('shareTxt').innerText = isAr ? "نشر الثواب (مشاركة)" : "Share & Earn Blessings";
             document.getElementById('langBtn').innerText = isAr ? "EN" : "AR";
-            document.getElementById('shareTxt').innerText = isAr ? "انشر الخير" : "Share Goodness";
             document.getElementById('quote').innerText = isAr ? 
-                "نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين. جبال من الحسنات في انتظاركم عند المشاركة." :
-                "Please pray for everyone who contributed to this work, and for all deceased Muslims. Rewards await those who share.";
+                "نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين." : 
+                "Please pray for everyone who contributed to this work and for all deceased Muslims.";
+            document.getElementById('hadith').innerText = isAr ? 
+                'قال رسول الله ﷺ: "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ"' : 
+                'Prophet Muhammad (PBUH) said: "Whoever guides someone to goodness will have a reward like one who did it."';
         }
 
         function share() {
             if (navigator.share) {
                 navigator.share({ title: 'إذاعة القرآن الكريم', url: window.location.href });
             } else {
-                alert("انسخ رابط الموقع وانشره!");
+                alert("انسخ الرابط وانشره لتنال الأجر بإذن الله");
             }
         }
     </script>
