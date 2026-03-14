@@ -10,19 +10,19 @@
 
     <style>
         :root {
-            --bg-color: #05070a;
-            --card-bg: rgba(15, 20, 28, 0.95);
+            --bg-color: #030508;
+            --card-bg: rgba(10, 14, 20, 0.98);
             --neon-color: #00f2ff;
             --text-color: #ffffff;
-            --glow: 0 0 20px rgba(0, 242, 255, 0.4);
+            --glow: 0 0 25px rgba(0, 242, 255, 0.5);
         }
 
         [data-theme="light"] {
-            --bg-color: #f0f4f8;
+            --bg-color: #f4f7f6;
             --card-bg: rgba(255, 255, 255, 0.98);
             --neon-color: #0062ff;
-            --text-color: #1a202c;
-            --glow: 0 5px 15px rgba(0, 98, 255, 0.2);
+            --text-color: #1a1c22;
+            --glow: 0 5px 20px rgba(0, 98, 255, 0.2);
         }
 
         body {
@@ -34,16 +34,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
-            transition: 0.5s;
         }
 
         .container {
             width: 100%;
             max-width: 480px;
             background: var(--card-bg);
-            padding: 30px;
+            padding: 40px 25px;
             border-radius: 40px;
             border: 2px solid var(--neon-color);
             box-shadow: var(--glow);
@@ -55,7 +54,7 @@
         .top-controls {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .action-btn {
@@ -64,56 +63,63 @@
             color: var(--neon-color);
             width: 45px;
             height: 45px;
-            border-radius: 15px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.3s;
         }
 
-        h1 { font-size: 1.8rem; font-weight: 900; text-shadow: var(--glow); margin: 10px 0; }
+        .action-btn:hover { background: var(--neon-color); color: #000; }
+
+        h1 { font-size: 1.8rem; font-weight: 900; text-shadow: var(--glow); margin-bottom: 5px; }
 
         .quote-box {
             background: rgba(0, 242, 255, 0.05);
-            padding: 15px;
+            padding: 20px;
             border-radius: 20px;
             margin: 20px 0;
-            font-size: 0.95rem;
+            font-size: 1rem;
             border-right: 5px solid var(--neon-color);
+            line-height: 1.6;
         }
 
+        /* الحديث النبوي - وضوح تام وعريض */
         .hadith-text {
             color: var(--neon-color);
             font-weight: 900;
-            font-size: 1.3rem;
-            margin: 25px 0;
+            font-size: 1.25rem;
+            margin: 30px 0;
             line-height: 1.8;
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
         }
 
-        audio { width: 100%; margin: 15px 0; border-radius: 50px; }
+        audio { width: 100%; margin: 15px 0; filter: drop-shadow(0 0 8px var(--neon-color)); }
 
-        .refresh-btn {
+        .refresh-trigger {
             font-size: 0.9rem;
             cursor: pointer;
             color: var(--neon-color);
             display: inline-block;
-            padding: 10px;
+            padding: 10px 20px;
             transition: 0.3s;
-            border-radius: 10px;
+            border-radius: 50px;
+            border: 1px solid transparent;
         }
 
-        .refresh-active {
-            animation: neon-pulse 0.6s ease-in-out;
-            text-shadow: 0 0 20px var(--neon-color);
+        /* نبض نيون عند الضغط */
+        .neon-pulse-active {
+            animation: pulse-ring 0.6s ease-out;
+            border-color: var(--neon-color);
+            background: rgba(0, 242, 255, 0.1);
         }
 
-        @keyframes neon-pulse {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.1); filter: brightness(1.5); }
-            100% { transform: scale(1); filter: brightness(1); }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 242, 255, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 242, 255, 0.9); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 242, 255, 0); }
         }
 
         .social-icons {
@@ -126,10 +132,10 @@
         .social-icons a { font-size: 1.8rem; color: var(--text-color); transition: 0.3s; }
         .social-icons a:hover { color: var(--neon-color); transform: translateY(-5px); }
 
-        .share-btn {
+        .share-main-btn {
             background: var(--neon-color);
             color: #000;
-            padding: 14px;
+            padding: 15px;
             border-radius: 50px;
             border: none;
             font-weight: 900;
@@ -137,6 +143,7 @@
             cursor: pointer;
             box-shadow: var(--glow);
             font-family: 'Cairo';
+            font-size: 1rem;
         }
     </style>
 </head>
@@ -149,18 +156,18 @@
         </div>
 
         <h1 id="title">إذاعة القرآن الكريم</h1>
-        <p id="subtitle" style="opacity: 0.7;">بث مباشر من القاهرة</p>
+        <p style="opacity: 0.7; margin-bottom: 25px;" id="subtitle">من القاهرة - بث مباشر</p>
 
         <div class="quote-box" id="quote">
             نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين بالرحمة والمغفرة.
         </div>
 
-        <audio id="mainPlayer" controls autoplay>
-            <source src="https://n02.radiojar.com/8s5u8tp7sq5tv" type="audio/mpeg">
-            متصفحك لا يدعم التشغيل.
+        <audio id="myaudio" controls autoplay>
+            <source rel="noreferrer nofollow" src="https://stream.radiojar.com/8s5u5tpdtwzuv" type="audio/mp3">
+            متصفحك لا يدعم تشغيل الصوت.
         </audio>
 
-        <div id="refreshWrapper" class="refresh-btn" onclick="refreshStream()">
+        <div id="refreshBtn" class="refresh-trigger" onclick="reloadRadio()">
             <i class="fas fa-sync-alt"></i> <span id="refreshTxt">تحديث الاتصال بالبث</span>
         </div>
 
@@ -174,23 +181,22 @@
             <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
 
-        <button class="share-btn" onclick="share()"><i class="fas fa-share-alt"></i> <span id="shareTxt">مشاركة الموقع (صدقة جارية)</span></button>
+        <button class="share-main-btn" onclick="share()"><i class="fas fa-share-alt"></i> <span id="shareTxt">نشر الثواب (مشاركة)</span></button>
     </div>
 
     <script>
-        const player = document.getElementById('mainPlayer');
+        const audio = document.getElementById('myaudio');
 
-        function refreshStream() {
-            const btn = document.getElementById('refreshWrapper');
-            btn.classList.add('refresh-active');
-            setTimeout(() => btn.classList.remove('refresh-active'), 600);
+        function reloadRadio() {
+            // إضافة تأثير النيون البصري
+            const btn = document.getElementById('refreshBtn');
+            btn.classList.add('neon-pulse-active');
+            setTimeout(() => btn.classList.remove('neon-pulse-active'), 600);
 
-            // إعادة تعيين المصدر لضمان الاتصال
-            player.src = "https://n02.radiojar.com/8s5u8tp7sq5tv?t=" + new Date().getTime();
-            player.load();
-            player.play().catch(() => {
-                alert("يرجى الضغط على زر التشغيل (Play) للبدء");
-            });
+            // إعادة تحميل الرابط
+            audio.src = "https://stream.radiojar.com/8s5u5tpdtwzuv?t=" + new Date().getTime();
+            audio.load();
+            audio.play();
         }
 
         function toggleTheme() {
@@ -206,30 +212,24 @@
             document.documentElement.lang = isAr ? 'ar' : 'en';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             
-            const trans = {
-                title: isAr ? "إذاعة القرآن الكريم" : "Quran Radio",
-                sub: isAr ? "بث مباشر من القاهرة" : "Live from Cairo",
-                ref: isAr ? "تحديث الاتصال بالبث" : "Reconnect Stream",
-                share: isAr ? "مشاركة الموقع (صدقة جارية)" : "Share (Sadaqah Jariyah)",
-                btn: isAr ? "EN" : "AR",
-                quote: isAr ? "نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين بالرحمة والمغفرة." : "Please pray for those who contributed to this work, and for all deceased Muslims.",
-                hadith: isAr ? 'قال رسول الله ﷺ: "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ"' : 'Prophet Muhammad (PBUH) said: "Whoever guides someone to goodness will have a similar reward."'
-            };
-
-            document.getElementById('title').innerText = trans.title;
-            document.getElementById('subtitle').innerText = trans.sub;
-            document.getElementById('refreshTxt').innerText = trans.ref;
-            document.getElementById('shareTxt').innerText = trans.share;
-            document.getElementById('langBtn').innerText = trans.btn;
-            document.getElementById('quote').innerText = trans.quote;
-            document.getElementById('hadith').innerText = trans.hadith;
+            document.getElementById('title').innerText = isAr ? "إذاعة القرآن الكريم" : "Quran Radio";
+            document.getElementById('subtitle').innerText = isAr ? "من القاهرة - بث مباشر" : "Live from Cairo";
+            document.getElementById('refreshTxt').innerText = isAr ? "تحديث الاتصال بالبث" : "Reconnect Stream";
+            document.getElementById('shareTxt').innerText = isAr ? "نشر الثواب (مشاركة)" : "Share & Earn Reward";
+            document.getElementById('langBtn').innerText = isAr ? "EN" : "AR";
+            document.getElementById('quote').innerText = isAr ? 
+                "نسألكم الدعاء لكل من ساهم في هذا العمل بظهر الغيب، ولأمواتنا وأموات المسلمين بالرحمة والمغفرة." : 
+                "Please pray for everyone who contributed to this work, and for all deceased Muslims.";
+            document.getElementById('hadith').innerText = isAr ? 
+                'قال رسول الله ﷺ: "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ"' : 
+                'Prophet Muhammad (PBUH) said: "Whoever guides someone to goodness will have a similar reward."';
         }
 
         function share() {
             if (navigator.share) {
                 navigator.share({ title: 'إذاعة القرآن الكريم', url: window.location.href });
             } else {
-                alert("تم نسخ الرابط، انشره لتنال الأجر!");
+                alert("تم نسخ رابط الموقع، انشره لتنال الأجر!");
             }
         }
     </script>
