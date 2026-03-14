@@ -3,155 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Quran | إذاعة القرآن الكريم</title>
+    <title>Radio Quran | Osama</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0a0b10;
-            --card-bg: rgba(20, 22, 30, 0.8);
-            --neon-color: #00f2ff;
+            --bg-color: #0d0f14;
+            --card-bg: rgba(20, 25, 35, 0.9);
+            --neon-primary: #00f2ff;
+            --neon-secondary: #7000ff;
             --text-color: #ffffff;
-            --shadow: 0 0 15px #00f2ff, 0 0 30px rgba(0, 242, 255, 0.2);
+            --glow: 0 0 15px rgba(0, 242, 255, 0.5);
         }
 
         [data-theme="light"] {
             --bg-color: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --neon-color: #007bff;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --neon-primary: #007bff;
+            --neon-secondary: #6610f2;
             --text-color: #1a1a1a;
-            --shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            --glow: 0 4px 15px rgba(0, 123, 255, 0.2);
         }
 
         body {
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            background-color: var(--bg-color);
+            background: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: 0.3s;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
         }
 
         .container {
+            width: 90%;
+            max-width: 450px;
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--neon-color);
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid var(--neon-primary);
+            box-shadow: var(--glow);
             text-align: center;
             backdrop-filter: blur(10px);
-            max-width: 400px;
-            width: 90%;
+            position: relative;
         }
 
-        h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: var(--shadow); }
+        .header-tools {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
 
-        .controls { margin: 20px 0; }
-        
-        button {
-            background: transparent;
-            border: 1px solid var(--neon-color);
+        .btn-tool {
+            background: none;
+            border: 1px solid var(--neon-primary);
             color: var(--text-color);
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 50px;
+            padding: 8px 15px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: var(--neon-color);
-            color: #000;
-            box-shadow: var(--shadow);
-        }
-
-        audio {
-            width: 100%;
-            margin-top: 20px;
-            filter: drop-shadow(var(--shadow));
-        }
-
-        .footer {
-            margin-top: 30px;
             font-size: 0.8rem;
-            opacity: 0.7;
         }
 
-        .dev-name { color: var(--neon-color); font-weight: bold; }
+        h1 { font-size: 1.6rem; color: var(--neon-primary); text-shadow: var(--glow); margin: 10px 0; }
+        
+        .spiritual-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 10px;
+            border-right: 3px solid var(--neon-primary);
+            background: rgba(0, 242, 255, 0.05);
+        }
 
-        /* لغات */
-        [lang="en"] { direction: ltr; }
+        audio { width: 100%; margin: 20px 0; border-radius: 10px; }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-primary);
+            transform: translateY(-3px);
+            filter: drop-shadow(var(--glow));
+        }
+
+        .footer-note {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+
+        .share-btn {
+            background: var(--neon-primary);
+            color: #000;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .dev-credit { margin-top: 15px; font-weight: bold; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-<div class="container" id="main-card">
-    <div class="top-nav">
-        <button onclick="toggleLanguage()" id="langBtn">English</button>
-        <button onclick="toggleTheme()" id="themeBtn">☀️/🌙</button>
+<div class="container">
+    <div class="header-tools">
+        <button class="btn-tool" onclick="toggleLanguage()" id="langBtn">English</button>
+        <button class="btn-tool" onclick="toggleTheme()">☀️/🌙</button>
     </div>
 
     <h1 id="title">إذاعة القرآن الكريم</h1>
     <p id="subtitle">بث مباشر من القاهرة</p>
 
-    <audio id="radioPlayer" controls>
-        <source src="https://n02.radiojar.com/8s5u8tp7sq5tv" type="audio/mpeg">
-    </audio>
-
-    <div class="controls">
-        <button onclick="refreshRadio()" id="refreshBtn">تحديث البث 🔄</button>
+    <div class="spiritual-text" id="quote">
+        "الدال على الخير كفاعله.. مشاركتك للموقع جبال من الحسنات الجارية لك ولغيرك."
+        <br>
+        <small style="display:block; margin-top:5px; color: var(--neon-primary);">نسألكم الدعاء لمطور الموقع بظهر الغيب، ولأمواتنا وأموات المسلمين بالرحمة والمغفرة.</small>
     </div>
 
-    <div class="footer">
-        <p id="devText">تم التطوير بواسطة <span class="dev-name">Osama</span></p>
+    <audio id="radioPlayer" controls>
+        <source src="https://n02.radiojar.com/8s5u8tp7sq5tv?rj-tok=AAABj_...&rj-ttl=5" type="audio/mpeg">
+        <source src="https://stream.radiojar.com/8s5u8tp7sq5tv" type="audio/mpeg">
+    </audio>
+
+    <button class="btn-tool" style="width:100%;" onclick="refreshRadio()" id="refreshBtn">تحديث البث 🔄</button>
+
+    <div class="social-links">
+        <a href="https://wa.me/message/FJEGUNCJ4JX7P1" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.facebook.com/Osama.Omar.MS?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <button class="share-btn" onclick="shareSite()" id="shareBtn">مشاركة الموقع 🔗</button>
+
+    <div class="dev-credit" id="devCredit">
+        Developed with ❤️ by <span style="color:var(--neon-primary)">Osama</span>
     </div>
 </div>
 
 <script>
     const player = document.getElementById('radioPlayer');
     const htmlTag = document.documentElement;
-    
-    // 1. نظام الثيم التلقائي واليدوي
-    function setTheme(theme) {
-        htmlTag.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-    }
 
-    // التحقق من إعدادات النظام
-    const osTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    setTheme(localStorage.getItem('theme') || osTheme);
+    // ثيم النظام التلقائي
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        htmlTag.setAttribute('data-theme', 'light');
+    }
 
     function toggleTheme() {
         const current = htmlTag.getAttribute('data-theme');
-        setTheme(current === 'dark' ? 'light' : 'dark');
+        htmlTag.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
     }
 
-    // 2. تبديل اللغة
-    let currentLang = 'ar';
-    function toggleLanguage() {
-        currentLang = currentLang === 'ar' ? 'en' : 'ar';
-        htmlTag.setAttribute('lang', currentLang);
-        htmlTag.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-        
-        const content = {
-            ar: { title: "إذاعة القرآن الكريم", subtitle: "بث مباشر من القاهرة", refresh: "تحديث البث 🔄", dev: "تم التطوير بواسطة ", lang: "English" },
-            en: { title: "Quran Radio", subtitle: "Live from Cairo", refresh: "Refresh Stream 🔄", dev: "Developed by ", lang: "العربية" }
-        };
-
-        document.getElementById('title').innerText = content[currentLang].title;
-        document.getElementById('subtitle').innerText = content[currentLang].subtitle;
-        document.getElementById('refreshBtn').innerText = content[currentLang].refresh;
-        document.getElementById('devText').innerHTML = content[currentLang].dev + '<span class="dev-name">Osama</span>';
-        document.getElementById('langBtn').innerText = content[currentLang].lang;
-    }
-
-    // 3. تحديث البث
     function refreshRadio() {
-        player.src = "https://n02.radiojar.com/8s5u8tp7sq5tv?random=" + Math.random();
-        player.play();
+        const currentSrc = player.getElementsByTagName('source')[0].src.split('?')[0];
+        player.src = currentSrc + "?cache=" + Math.random();
+        player.load();
+        player.play().catch(e => alert("اضغط تشغيل لبدء البث"));
+    }
+
+    function shareSite() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'إذاعة القرآن الكريم - أسامة',
+                text: 'استمع لإذاعة القرآن الكريم من القاهرة مباشرة.. جبال من الحسنات بانتظارك.',
+                url: window.location.href
+            });
+        } else {
+            alert("انسخ رابط الصفحة وشاركه مع أحبابك!");
+        }
+    }
+
+    let isAr = true;
+    function toggleLanguage() {
+        isAr = !isAr;
+        htmlTag.setAttribute('lang', isAr ? 'ar' : 'en');
+        htmlTag.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+        
+        document.getElementById('title').innerText = isAr ? "إذاعة القرآن الكريم" : "Quran Radio";
+        document.getElementById('subtitle').innerText = isAr ? "بث مباشر من القاهرة" : "Live from Cairo";
+        document.getElementById('refreshBtn').innerText = isAr ? "تحديث البث 🔄" : "Refresh Stream 🔄";
+        document.getElementById('shareBtn').innerText = isAr ? "مشاركة الموقع 🔗" : "Share Website 🔗";
+        document.getElementById('langBtn').innerText = isAr ? "English" : "العربية";
+        document.getElementById('quote').innerHTML = isAr ? 
+            `"الدال على الخير كفاعله.. مشاركتك للموقع جبال من الحسنات."<br><small>نسألكم الدعاء لـ Osama ولأموات المسلمين.</small>` : 
+            `"Sharing goodness is a reward itself.. spread the word and earn blessings."<br><small>Please pray for the developer and all deceased Muslims.</small>`;
     }
 </script>
 
